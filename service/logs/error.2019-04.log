@@ -1,0 +1,582 @@
+[2019-04-16T15:33:30.341] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2116E6DF\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-03-01\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-16T15:34:48.230] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2116E6DF\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-03-01\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-16T15:34:55.429] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2116E6DF\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-03-01\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-16T15:35:48.870] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2116E6DF\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-03-01\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-16T15:37:12.448] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2116E6DF\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-03-01\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-16T15:43:12.270] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2116E6DF\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-03-01\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-16T15:44:12.819] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2116E6DF'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-03-01'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2116E6DF\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-03-01\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-26T19:56:52.341] [ERROR] error - TypeError: Cannot read property 'ais_time_type' of undefined
+    at C:\Code\WebStorm\aisdata\service\service.js:168:73
+    at new Promise (<anonymous>)
+    at getFilesList (C:\Code\WebStorm\aisdata\service\service.js:148:12)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2019-04-26T19:57:01.896] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2D7CBDC4\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-02-04\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-26T19:59:07.018] [ERROR] error - TypeError: Cannot read property 'ais_time_type' of undefined
+    at C:\Code\WebStorm\aisdata\service\service.js:169:73
+    at new Promise (<anonymous>)
+    at getFilesList (C:\Code\WebStorm\aisdata\service\service.js:149:12)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2019-04-26T20:00:07.989] [ERROR] error - TypeError: Cannot read property 'ais_time_type' of undefined
+    at C:\Code\WebStorm\aisdata\service\service.js:169:73
+    at new Promise (<anonymous>)
+    at getFilesList (C:\Code\WebStorm\aisdata\service\service.js:149:12)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2019-04-26T20:00:15.359] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2D7CBDC4\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-02-04\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-26T20:01:17.286] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2D7CBDC4\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-02-04\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-26T20:03:50.006] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2D7CBDC4\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-02-04\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-26T20:05:03.259] [ERROR] error - TypeError: Cannot read property 'ais_time_type' of undefined
+    at C:\Code\WebStorm\aisdata\service\service.js:169:73
+    at new Promise (<anonymous>)
+    at getFilesList (C:\Code\WebStorm\aisdata\service\service.js:149:12)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2019-04-26T20:07:51.297] [ERROR] error - TypeError: Cannot read property 'ais_time_type' of undefined
+    at C:\Code\WebStorm\aisdata\service\service.js:169:73
+    at new Promise (<anonymous>)
+    at getFilesList (C:\Code\WebStorm\aisdata\service\service.js:149:12)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2019-04-26T20:15:03.692] [ERROR] error - TypeError: Cannot read property 'ais_time_type' of undefined
+    at C:\Code\WebStorm\aisdata\service\service.js:169:73
+    at new Promise (<anonymous>)
+    at getFilesList (C:\Code\WebStorm\aisdata\service\service.js:149:12)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2019-04-26T20:15:23.661] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2D7CBDC4\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-02-04\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
+[2019-04-26T20:15:24.785] [ERROR] error - { RequestError: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:412:15)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+  code: 'EREQUEST',
+  number: 2627,
+  lineNumber: 1,
+  state: 1,
+  class: 14,
+  serverName: 'WIN-BGND4VTIIDE',
+  procName: '',
+  originalError: 
+   { Error: Violation of PRIMARY KEY constraint 'PK__t41_ais___77B3115F2D7CBDC4'. Cannot insert duplicate key in object 'dbo.t41_ais_static_2019-02-04'.
+    at handleError (C:\Code\WebStorm\aisdata\node_modules\_mssql@4.3.1@mssql\lib\tedious.js:410:19)
+    at emitOne (events.js:116:13)
+    at Connection.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\connection.js:618:16)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at Parser.<anonymous> (C:\Code\WebStorm\aisdata\node_modules\_tedious@2.7.1@tedious\lib\token\token-stream-parser.js:54:15)
+    at emitOne (events.js:116:13)
+    at Parser.emit (events.js:211:7)
+    at addChunk (C:\Code\WebStorm\aisdata\node_modules\_readable-stream@2.3.6@readable-stream\lib\_stream_readable.js:291:12)
+     info: 
+      { number: 2627,
+        state: 1,
+        class: 14,
+        message: 'Violation of PRIMARY KEY constraint \'PK__t41_ais___77B3115F2D7CBDC4\'. Cannot insert duplicate key in object \'dbo.t41_ais_static_2019-02-04\'.',
+        serverName: 'WIN-BGND4VTIIDE',
+        procName: '',
+        lineNumber: 1,
+        name: 'ERROR',
+        event: 'errorMessage' } },
+  name: 'RequestError',
+  precedingErrors: [] }
