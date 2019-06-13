@@ -1,4 +1,4 @@
-const parseDatefunc = require("../parseDataF/newparseDate_03")
+const parseDatefunc = require("../parseDataF/newparseDate_remote")
 const async = require('async');
 const fs = require("fs")
 let logger = require("../log4js/logger");

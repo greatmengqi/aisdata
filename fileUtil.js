@@ -6,27 +6,27 @@ var stat = promisify(fs.stat);
 
 function readDirRecur(file, confObj, callback) {
     return readdir(file).then(
-            (files) => {
-                files = files.map((item) => {
-                    var fullPath = file + '/' + item;
-                    return stat(fullPath).then((stats) => {
-                        if (stats.isDirectory()) {
-                            //读取配置文件，配置文件信息传给回调函数
-                            let obj = getConfObj(fullPath);
+        (files) => {
+            files = files.map((item) => {
+                var fullPath = file + '/' + item;
+                return stat(fullPath).then((stats) => {
+                    if (stats.isDirectory()) {
+                        //读取配置文件，配置文件信息传给回调函数
+                        let obj = getConfObj(fullPath);
 
-                            return readDirRecur(fullPath, obj, callback);
+                        return readDirRecur(fullPath, obj, callback);
+                    } else {
+                        /*not use ignore files*/
+                        if (item[0] == '.') {
+                            //console.log(item + ' is a hide file.');
                         } else {
-                            /*not use ignore files*/
-                            if (item[0] == '.') {
-                                //console.log(item + ' is a hide file.');
-                            } else {
-                                callback && callback(fullPath, confObj)
-                            }
+                            callback && callback(fullPath, confObj)
                         }
-                    })
-                });
-                return Promise.all(files);
+                    }
+                })
             });
+            return Promise.all(files);
+        });
 }
 
 
@@ -46,12 +46,16 @@ function promisify(fn) {
     }
 }
 
+
 function getfilelist(path, outpath, callback) {
 
     //先读取配置文件，配置文件信息传给递归函数
     let list = [];
     let confObj = getConfObj(path);
+
+
     readDirRecur(path, confObj, function (path, confobj) {
+
         if (path.indexOf("configuration") == -1) { //不是配置文件
             let split = path.toString().trim().split("/");
             let filename = split[split.length - 1].split(".")[0];
@@ -68,20 +72,19 @@ function getfilelist(path, outpath, callback) {
                 file: {
                     path: path,
                     outpath: outpath + "/" + name
-                }
-                ,
+                },
                 datesourceType: {
                     ais_time_type: parseInt(confobj.ais_time_type),
-                    data_column_boundary: parseInt(confobj.data_column_boundary),
+                    data_column_boundary: confobj.data_column_boundary,
                     sourceid: parseInt(confobj.source_id)
                 },
                 sortkey: filename,
                 level: level,
-                // filterkey: 0
             };
             list.push(fileObj)
         }
-    }).then(
+    })
+        .then(
             function (res) {
                 list = list.sort((a, b) => {
                     if (a.sortkey != b.sortkey) {
@@ -94,13 +97,13 @@ function getfilelist(path, outpath, callback) {
                 }));
                 callback(null, list)
             }
-    )
+        )
 }
 
 
 function getConfObj(path) {
     let obj = {}
-    let configurationPath = path + "\/configuration.txt"
+    let configurationPath = path + "/configuration.txt"
     let string = ""
     if (fs.existsSync(configurationPath)) {
         string = fs.readFileSync(configurationPath).toString();
@@ -110,10 +113,8 @@ function getConfObj(path) {
         process.exit(-1)
     }
 
-    while (string.indexOf("\r\n") != -1) {
-        string = string.toString().replace("\r\n", "")
-    }
-    let split = string.toString().trim().split(";");
+
+    let split = string.toString().trim().split("\r\n");
     for (let i in split) {
         if (split[i] != "") {
             let str = split[i].split(":")
@@ -124,3 +125,8 @@ function getConfObj(path) {
 }
 
 module.exports.getfilelist = getfilelist;
+
+
+readdir("/Users/chenmengqi/Desktop/2019/source/").then((res) => {
+    console.log(res);
+});

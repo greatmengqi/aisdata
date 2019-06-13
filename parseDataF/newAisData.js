@@ -170,9 +170,6 @@ function analyticalData(staticInfoMap, referenceTable, filesName, callback) {
 }
 
 
-function print(arg1, callback) {
-    console.log(arg1);
-}
 
 function promisify(fn) {
     return function () {
