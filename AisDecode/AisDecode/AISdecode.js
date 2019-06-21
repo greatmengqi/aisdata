@@ -232,7 +232,30 @@ function AisDecode (input) {
             this.utc = this.GetInt( 137, 6 );
             this.acc = this.GetInt( 60, 1);
             break;
-            
+        case 4:
+            var year           =this.GetInt(38,14);
+            var month          =this.GetInt(52,4)-1;
+            var day            =this.GetInt(56,5);
+            var hour           =this.GetInt(61,5);
+            var minute         =this.GetInt(66,6);
+            var second         =this.GetInt(72,6);
+            this.acc            =this.GetInt(78,1);
+            this.utcdate=Date.UTC(year,month,day,hour,minute,second);
+
+            var lon             =this.GetInt(79, 28);
+            if (lon & 0x08000000 ) lon |= 0xf0000000;
+            lon = parseFloat(parseFloat (lon / 600000).toFixed(6));
+
+            var lat             =this.GetInt(107, 27);
+            if( lat & 0x04000000 ) lat |= 0xf8000000;
+            lat = parseFloat(parseFloat (lat / 600000).toFixed(6));
+
+            if( ( lon <= 180. ) && ( lat <= 90. ) ) {
+                this.lon = lon;
+                this.lat = lat;
+                this.valid = true;
+            } else this.valid = false;
+            break;
         case 5:
             this.class  = 'A';
 //          Get the AIS Version indicator
@@ -339,6 +362,25 @@ function AisDecode (input) {
                 this.width       = this.dimC + this.dimD;
                 this.valid = true;
             }
+            break;
+        case 27:
+            this.acc            =this.GetInt(38,1);
+            var lon             =this.GetInt(44, 18);
+            if (lon & 0x00020000 ) lon |= 0xfffc0000;
+            lon = parseFloat(parseFloat (lon / 600).toFixed(6));
+
+            var lat             =this.GetInt(62, 17);
+            if( lat & 0x00010000 ) lat |= 0xfffe0000;
+            lat = parseFloat(parseFloat (lat / 600).toFixed(6));
+
+            if( ( lon <= 180. ) && ( lat <= 90. ) ) {
+                this.lon = lon;
+                this.lat = lat;
+                this.valid = true;
+            } else this.valid = false;
+            this.sog            =this.GetInt(79,6);
+            this.cog            =this.GetInt(85,9);
+            this.navstatus      =this.GetInt(40,4);
             break;
         default:
     }
