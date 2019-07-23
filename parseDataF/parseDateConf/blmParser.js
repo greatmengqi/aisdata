@@ -1,7 +1,7 @@
 const AisObject=require("./AisObject.js");
 const AisDecode=require("./AISdecode.js");
 const mmsiUtil=require("./mmsiUtil.js");
-
+var i=0;
 function aisDecode(time,packet){
 	var aisObj=new AisObject();
 	aisObj.time=time;
@@ -36,6 +36,16 @@ function aisDecode(time,packet){
 		aisObj.secondutc=decode.utc;//Second of UTC timestamp
 		//aisObj.maneuver=0;//特殊操纵
 		break;
+
+	case 4:
+	    aisObj.mmsi=mmsi;
+        aisObj.messageType=decode.aistype;//ais报文类型 1-27
+        aisObj.acc=decode.acc;//位置的准确度
+        aisObj.x=decode.lon;//经度
+		aisObj.y=decode.lat;//纬度
+        aisObj.utctime=decode.utcdate;//UTC时间戳
+		break;
+
 	case 5:
 		aisObj.mmsi = mmsi;
 		aisObj.packetType=1;//0 动态报文  1静态报文 2 包含动态和静态报文
@@ -104,6 +114,18 @@ function aisDecode(time,packet){
 			aisObj.width=decode.width;//米
 		}
 		break;
+
+	case 27:
+        aisObj.messageType=decode.aistype; //ais报文类型 1-27
+        aisObj.mmsi=mmsi;
+        aisObj.speed=decode.sog;
+        aisObj.status=decode.navstatus;//航行状态
+        aisObj.acc=decode.acc;//位置的准确度
+        aisObj.x=decode.lon;//经度
+        aisObj.y=decode.lat;//纬度
+        aisObj.course=decode.cog;//航向
+        break;
+
 	default:
 		aisObj=null;
 	}
