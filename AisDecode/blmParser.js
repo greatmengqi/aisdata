@@ -46,7 +46,7 @@ function aisDecode(time, packet) {
             aisObj.acc = decode.acc;//位置的准确度
             aisObj.lon = decode.lon;//经度
             aisObj.lat = decode.lat;//纬度
-            aisObj.secondutc = decode.utc;//UTC时间戳
+            aisObj.secondutc = decode.utc;//UTC时间戳,这里为了统一化
             break;
 
         case 5:

@@ -3,12 +3,14 @@ let moment = require("moment");
 // 0:utc 1:东八区
 function unifiedDate(dateStr, type, format) {
 
-    let date = 0
+    let date = 0;
 
     if (type == "xxxx") {
         date = parseInt(dateStr);
     } else {
-        date = moment(dateStr, format).unix()
+        // let mo = moment(dateStr, format);
+        let mo = moment.utc(dateStr, format);
+        date = mo.unix()
     }
 
     if (type == 1) {

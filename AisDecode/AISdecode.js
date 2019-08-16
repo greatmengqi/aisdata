@@ -240,6 +240,7 @@ function AisDecode(input) {
             var minute = this.GetInt(66, 6);
             var second = this.GetInt(72, 6);
             this.acc = this.GetInt(78, 1);
+
             this.utc = Date.UTC(year, month, day, hour, minute, second);
 
             var lon = this.GetInt(79, 28);
@@ -470,5 +471,3 @@ if (process.argv[1] === __filename) {
 }
 
 module.exports = AisDecode; // http://openmymind.net/2012/2/3/Node-Require-and-Exports/
-
-

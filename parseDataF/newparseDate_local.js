@@ -170,5 +170,7 @@ function readEachLine(file, datesourceType, callback) {
 }
 
 
+//2015-02-13:20:59:33;!ABVDM,1,1,,B,403t?0AutVe0>`b`hn@3<PQ02<27,0*0E
+
 module.exports.readEachLine = readEachLine;
 
