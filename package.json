@@ -13,16 +13,16 @@
     "fs": "^0.0.1-security",
     "ngeohash": "^0.6.3",
     "async": "2.6.1",
-    "node-schedule":"*",
-    "mssql":"4.3.1",
+    "node-schedule": "*",
+    "mssql": "4.3.1",
     "bluebird": "3.5.3",
-    "sequelize":"*",
-    "log4js":"4.0.2",
-    "node-exiftool":"*",
-    "dist-exiftool":"*",
+    "sequelize": "*",
+    "log4js": "4.0.2",
+    "node-exiftool": "*",
+    "dist-exiftool": "*",
     "moment": "2.24.0",
     "should": "13.2.3",
-    "child_process":"1.0.2",
-    "node-ssh":"6.0.0"
+    "child_process": "1.0.2",
+    "node-ssh": "6.0.0"
   }
 }
