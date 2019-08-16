@@ -1,4 +1,0 @@
-source_id:  65;
-data_column_boundary:;;
-ais_time_type: 1;
-time_format:yyyy-MM-dd hh;

@@ -2,7 +2,7 @@
  解析Ais报文（2015版）
  */
 var Async = require("async");
-var AisDecode  = require ("../AisDecode/AisDecode/blmParser.js").aisDecode;
+var AisDecode  = require ("../AisDecode/blmParser.js").aisDecode;
 var Map = require("../blmutil/Map.js");
 var LineReader = require('line-reader');
 var Util = require('util');
@@ -10,7 +10,7 @@ var FileSys = require('fs');
 var InDir = require("./filepathConf.js").indir;
 var OutDir = require("./filepathConf.js").outdir;
 var BlmLog = require('../blmlog/BlmLog.js').blmlog;
-var AisObject = require("../AisDecode/AisDecode/AisObject.js");
+var AisObject = require("../AisDecode/AisObject.js");
 var TimeUtil = require("../blmutil/TimeUtil.js");
 var WriteToFile = require("./BlmFile.js").writeToFile;
 var SrcId = require('./filepathConf.js').srcid;

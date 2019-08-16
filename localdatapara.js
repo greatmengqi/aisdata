@@ -1,33 +1,35 @@
 const fileUtil = require("./fileUtil");
 let fs = require("fs");
-const staticMapUtil = require("./parseDataF/staticMapUtil");
 const parseData = require("./parseData");
-const storeStaticMapUtil = require("./parseDataF/storeStaticMapUtil");
 const async = require('async');
+let config = require("./conf").config;
 
 
-var path = process.argv[2]
-var outpath = process.argv[3]
+let month = process.argv[2];
 
 
-// console.log(process.argv);
-if (!fs.existsSync(outpath)) {
-    fs.mkdirSync(outpath)
+console.log(config);
+
+let path = config.local.inDir + "/" + month;
+let outPath = config.local.outDir + "/" + month;
+let otherPath = config.local.otherDir + "/" + month;
+
+
+if (!fs.existsSync(outPath)) {
+    fs.mkdirSync(outPath)
+}
+
+if (!fs.existsSync(otherPath)) {
+    fs.mkdirSync(otherPath)
 }
 
 async.auto(
     {
         func1: function (callback) {
-            fileUtil.getfilelist(path, outpath, callback)
+            fileUtil.getfilelist(path, outPath, otherPath, callback)
         },
-        func2: function (callback) {
-            staticMapUtil.getStaticMap(callback)
-        },
-        func3: ["func1", "func2", function (res, callback) {
+        func2: ["func1", function (res, callback) {
             parseData.parseData(res, callback)
-        }],
-        func4: ["func3", function (res, callback) {
-            storeStaticMapUtil.storeStaticMap(res, callback)
         }]
     }, function (err, res) {
 

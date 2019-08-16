@@ -16,10 +16,10 @@ function readDirRecur(file, confObj, callback) {
 
                         return readDirRecur(fullPath, obj, callback);
                     } else {
-                        /*not use ignore files*/
                         if (item[0] == '.') {
-                            //console.log(item + ' is a hide file.');
+
                         } else {
+
                             callback && callback(fullPath, confObj)
                         }
                     }
@@ -47,7 +47,7 @@ function promisify(fn) {
 }
 
 
-function getfilelist(path, outpath, callback) {
+function getfilelist(path, outpath, otherpath, callback) {
 
     //先读取配置文件，配置文件信息传给递归函数
     let list = [];
@@ -60,73 +60,47 @@ function getfilelist(path, outpath, callback) {
             let split = path.toString().trim().split("/");
             let filename = split[split.length - 1].split(".")[0];
             let name = filename + ".tsv";
-            let level = 0;
-            if (confobj.source_id == 47) { //东方通数据
-                filename = moment(filename, "YYYYMMDDHH").unix();
-            } else if (confobj.source_id == 65) { //本地数据
-                level = 1;
-                filename = moment(filename, "YYYY-MM-DD HH-mm").unix();
-            }
 
             let fileObj = {
                 file: {
                     path: path,
-                    outpath: outpath + "/" + name
+                    outpath: outpath + "/" + name,
+                    otherpath: otherpath + "/" + name
                 },
                 datesourceType: {
                     ais_time_type: parseInt(confobj.ais_time_type),
                     data_column_boundary: confobj.data_column_boundary,
-                    sourceid: parseInt(confobj.source_id)
+                    sourceid: parseInt(confobj.source_id),
+                    ais_time_format: confobj.ais_time_format
                 },
-                sortkey: filename,
-                level: level,
             };
             list.push(fileObj)
         }
-    })
-        .then(
-            function (res) {
-                list = list.sort((a, b) => {
-                    if (a.sortkey != b.sortkey) {
-                        return a.sortkey - b.sortkey
-                    } else {
-                        return a.level - b.level
-                    }
-                }).filter(((value, index, array) => {
-                    return true
-                }));
-                callback(null, list)
-            }
-        )
+    }).then(
+        function (res) {
+            callback(null, list)
+        }
+    )
 }
 
 
 function getConfObj(path) {
     let obj = {}
-    let configurationPath = path + "/configuration.txt"
-    let string = ""
-    if (fs.existsSync(configurationPath)) {
-        string = fs.readFileSync(configurationPath).toString();
-    }
-    else {
-        console.log(configurationPath + "  不存在");
-        process.exit(-1)
-    }
+    let confpath = "";
 
-
-    let split = string.toString().trim().split("\r\n");
-    for (let i in split) {
-        if (split[i] != "") {
-            let str = split[i].split(":")
-            obj[str[0]] = str[1]
+    let files = fs.readdirSync(path);
+    for (let index in files) {
+        if (files[index].indexOf(".json") != -1) {
+            confpath = path+"/"+files[index]
         }
     }
-    return obj
+
+    if (confpath === "") {
+        console.log("config不存在");
+        process.exit(-1)
+    } else {
+        return JSON.parse(fs.readFileSync(confpath).toString());
+    }
 }
 
 module.exports.getfilelist = getfilelist;
-
-
-readdir("/Users/chenmengqi/Desktop/2019/source/").then((res) => {
-    console.log(res);
-});
