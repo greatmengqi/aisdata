@@ -8,7 +8,7 @@ const Map = require("../AisDecode/Map.js");
 let log = require("../log4js/logger");
 
 
-function readEachLine(file, datesourceType, callback) {
+function readEachLine(file, datesourceType, res, rej) {
 
     log.default.info(`${file.path}解析开始`);
 
@@ -157,11 +157,14 @@ function readEachLine(file, datesourceType, callback) {
                     else {
                         await WriteToFile(file.outpath, htString);
                     }
+
+                    if (last) {
+                        log.default.info(`${file.path}解析完成`);
+                        res(0)
+                    }
                 }
             },
             function () {
-                log.default.info(`${file.path}解析完成`);
-                callback()
             }
         )
     } catch (e) {
