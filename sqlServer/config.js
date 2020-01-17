@@ -4,6 +4,9 @@ let config = {
         // password: 'boloomo20080828@))*)*@*()',
         // server: '192.168.129.115',
 
+        // server: '192.168.94.200',
+        // user: 'sa',
+        // password: '123qwe!@#QWE',
 
         user: 'sa',
         password: '123qwe!@#QWE',
@@ -19,6 +22,9 @@ let config = {
             idleTimeoutMillis: 100000
         }
     }
-}
+};
 
 module.exports = config;
+
+
+

@@ -46,7 +46,7 @@ function AisObject() {
 
     this.toHypertableValue = function (packetType) {
 
-        if (packetType == 3) {
+        if (packetType === 3) {
             return util.format("%d#%d#%d#%d#%d#%d#%d#%s#%d",//9
                 this.srcid, //0  *
                 this.messageType,//1 *

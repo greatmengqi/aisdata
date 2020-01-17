@@ -5,20 +5,22 @@ function unifiedDate(dateStr, type, format) {
 
     let date = 0;
 
-    if (type == "xxxx") {
+    if (type === "X") {
         date = parseInt(dateStr);
-    } else {
-        // let mo = moment(dateStr, format);
+    } else if (type === "x") {
+        date = parseInt(dateStr) / 1000;
+    }
+    else {
         let mo = moment.utc(dateStr, format);
         date = mo.unix()
     }
 
-    if (type == 1) {
+    if (type === 1) {
         date = date - 8 * 3600
     }
     return date
 }
 
-// console.log(unifiedDate("2019-03-08:11:59:33", 0, "YYYY-MM-DD:HH:mm:ss"));
 
 module.exports.unifiedDate = unifiedDate;
+

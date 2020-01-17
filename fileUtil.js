@@ -1,5 +1,4 @@
 const fs = require("fs");
-const moment = require("moment")
 var readdir = promisify(fs.readdir);
 var stat = promisify(fs.stat);
 
@@ -47,43 +46,6 @@ function promisify(fn) {
 }
 
 
-function getfilelist(path, outpath, otherpath, callback) {
-
-    //先读取配置文件，配置文件信息传给递归函数
-    let list = [];
-    let confObj = getConfObj(path);
-
-
-    readDirRecur(path, confObj, function (path, confobj) {
-
-        if (path.indexOf("configuration") == -1) { //不是配置文件
-            let split = path.toString().trim().split("/");
-            let filename = split[split.length - 1].split(".")[0];
-            let name = filename + ".tsv";
-
-            let fileObj = {
-                file: {
-                    path: path,
-                    outpath: outpath + "/" + name,
-                    otherpath: otherpath + "/" + name
-                },
-                datesourceType: {
-                    ais_time_type: parseInt(confobj.ais_time_type),
-                    data_column_boundary: confobj.data_column_boundary,
-                    sourceid: parseInt(confobj.source_id),
-                    ais_time_format: confobj.ais_time_format
-                },
-            };
-            list.push(fileObj)
-        }
-    }).then(
-        function (res) {
-            callback(null, list)
-        }
-    )
-}
-
-
 function getConfObj(path) {
     let obj = {}
     let confpath = "";
@@ -91,7 +53,7 @@ function getConfObj(path) {
     let files = fs.readdirSync(path);
     for (let index in files) {
         if (files[index].indexOf(".json") != -1) {
-            confpath = path+"/"+files[index]
+            confpath = path + "/" + files[index]
         }
     }
 
@@ -103,4 +65,61 @@ function getConfObj(path) {
     }
 }
 
+function getfilelist(path, outpath, otherpath, callback) {
+
+    //先读取配置文件，配置文件信息传给递归函数
+    let list = [];
+    let his = history();
+
+
+    let confObj = getConfObj(path);
+
+    readDirRecur(path, confObj, function (path, confobj) {
+
+        if (path.indexOf("configuration") === -1 && path.indexOf("json") === -1) { //不是配置文件
+            let split = path.toString().trim().split("/");
+            let filename = split[split.length - 1].split(".")[0];
+
+
+            let fileObj = {
+                file: {
+                    filename: split[split.length - 1],
+                    targetname: filename + ".tsv",
+                    path: path,
+                    outpath: outpath + "/" + filename + ".tsv",
+                    otherpath: otherpath + "/" + filename + ".tsv"
+                },
+                datesourceType: {
+                    ais_time_type: parseInt(confobj.ais_time_type),
+                    data_column_boundary: confobj.data_column_boundary,
+                    sourceid: parseInt(confobj.source_id),
+                    ais_time_format: confobj.ais_time_format
+                },
+            };
+
+            list.push(fileObj)
+
+        }
+    }).then(
+        function (res) {
+            list = list.filter(file => {
+                return !(his.includes(file.file.path));
+            });
+            callback(null, list)
+        }
+    )
+}
+
+
+function history() {
+    if (fs.existsSync("./file")) {
+        return fs.readFileSync('./file').toString().split("\n")
+    } else {
+        return []
+    }
+
+}
+
 module.exports.getfilelist = getfilelist;
+
+
