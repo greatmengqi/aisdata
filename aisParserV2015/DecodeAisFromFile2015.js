@@ -2,7 +2,7 @@
  解析Ais报文（2015版）
  */
 var Async = require("async");
-var AisDecode  = require ("../AisDecode/AisDecode/blmParser.js").aisDecode;
+var AisDecode  = require ("../AisDecode/blmParser.js").aisDecode;
 var Map = require("../blmutil/Map.js");
 var LineReader = require('line-reader');
 var Util = require('util');
@@ -10,7 +10,7 @@ var FileSys = require('fs');
 var InDir = require("./filepathConf.js").indir;
 var OutDir = require("./filepathConf.js").outdir;
 var BlmLog = require('../blmlog/BlmLog.js').blmlog;
-var AisObject = require("../AisDecode/AisDecode/AisObject.js");
+var AisObject = require("../AisDecode/AisObject.js");
 var TimeUtil = require("../blmutil/TimeUtil.js");
 var WriteToFile = require("./BlmFile.js").writeToFile;
 var SrcId = require('./filepathConf.js').srcid;
@@ -73,6 +73,7 @@ function DecodeAisFromFile2015(){
 				logtime = (time - logtime) > 60*30 ? time : logtime;
 
 				var aisData = AisDecode(time, aisPacket);
+
 				if (aisData != null)
 				{
 					count ++;
@@ -173,6 +174,64 @@ function DecodeAisFromFile2015(){
 		function(err) {
 			BlmLog.info(Util.format("All end, time is %s.", TimeUtil.dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss")));
 		});
+}
+
+function twiceParse() {
+	FileSys.readFile('./temp.txt', 'utf-8', function(error, data) {
+		if (error){
+			console.log("error for reading" + error.message);
+		}
+		else{
+			var all_data=data.split('\n');
+			all_data.splice(all_data.length-1,1);
+			//console.log(all_data);
+			for(var i=0;i<all_data.length;i++){
+				var time=all_data[i].split('+-*/=')[0];
+				var message=all_data[i].split('+-*/=')[1];
+				var flags = message.split(",");
+				var temp_one_mes=[];
+				temp_one_mes.push({
+					time:time,
+					data:message,
+					flag_x:parseInt(flags[1]),
+					flag_y:parseInt(flags[2]),
+					flag_z:parseInt(flags[3])
+				});
+				for(var j=i+1;j<all_data.length;j++){
+					var time_contrast=all_data[j].split('+-*/=')[0];
+					var message_contrast=all_data[j].split('+-*/=')[1];
+					var flags_contrast = message_contrast.split(",");
+					if(flags[1]==flags_contrast[1]&&flags[3]==flags_contrast[3]){
+						temp_one_mes.push({
+							time:time_contrast,
+							data:message_contrast,
+							flag_x:parseInt(flags_contrast[1]),
+							flag_y:parseInt(flags_contrast[2]),
+							flag_z:parseInt(flags_contrast[3])
+						});
+						all_data.splice(j,1);
+					}
+					if(temp_one_mes.length==temp_one_mes[0].flag_x){
+						break;
+					}
+				}
+				temp_one_mes.sort(compare('flag_x'));
+			}
+		}
+	});
+}
+
+function compare(p) {
+	return function(m,n){
+		var a = m[p];
+		var b = n[p];
+		if(a < b){
+			return -1;
+		}
+		else{
+			return 1;
+		}
+	}
 }
 
 DecodeAisFromFile2015();

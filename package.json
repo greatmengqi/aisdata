@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "redis": "*",
     "line-reader": "^0.4.0",
     "fs": "^0.0.1-security",
     "ngeohash": "^0.6.3",
@@ -23,6 +24,18 @@
     "moment": "2.24.0",
     "should": "13.2.3",
     "child_process": "1.0.2",
-    "node-ssh": "6.0.0"
+    "graceful-fs": "*",
+    "streamroller": "^1.0.6",
+    "flatted": "^2.0.1",
+    "date-format": "^2.1.0",
+    "node-ssh": "6.0.0",
+    "tedious": "6.2.0",
+    "config-lite": "^2.1.0",
+    "rfdc": "^1.1.4",
+    "babel-runtime": "^6.26.0",
+    "native-duplexpair": "*",
+    "inherits": "*",
+    "readable-stream": "*",
+    "util-deprecate": "*"
   }
 }

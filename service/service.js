@@ -1,108 +1,118 @@
 const sql = require("../sqlServer/ssql");
 const schedule = require('node-schedule');
-const Map = require("../parseDataF/parseDateConf/Map.js");
-const AisObject = require("../parseDataF/parseDateConf/AisObject.js");
-let parseDatafunc = require("./parseData");
-let mssql = require("mssql");
-let async = require("async");
-let logger = require("../log4js/logger")
-let fs = require("fs")
+let parseDatafunc = require("../parseData");
+let log = require("../log4js/logger");
+let config = require("../conf").config;
+let cluster = require("cluster");
+let fs = require("fs");
+const parseDatefunc = require("../parseDataF/newparseDate");
 
-let path = "C:\\Users\\great\\Desktop\\data\\新建文件夹"
-let outpath = "C:\\Users\\great\\Desktop\\data\\新建文件夹\\"
-let inputtable = ""
-let outputtable = "t41_ais_static_" + Date.now();
-let taskId = ""
+
+let taskId = "";
 let task = "";
-let warn = {type: 0, status: 0, note: ""}
+let job = "";
 
-sql.query("SELECT  id  FROM catsic.dbo.d8_ais_storage WHERE nowStatus = 1", function (err, res) {
-    if (err) {
-        logger.err.error(err)
-        return;
-    }
 
-    if (res.recordset.length != 0) //有一个程序正在执行
-    {
-        let id = res.recordset[0].id
-        logger.default.warn(`${id}号任务正在执行`)
-        sql.query(`UPDATE catsic.dbo.d8_ais_storage set nowStatus = 0 WHERE id = ${id};`, function (err, res) {
-            if (err) {
-                logger.err.error(err)
-                return;
-            }
-            logger.default.warn(`停止${id}号任务`)
+if (cluster.isMaster) {
+    sql.query("SELECT  id  FROM catsic.dbo.d8_ais_storage WHERE nowStatus = 1", function (err, res) {
+        if (err) {
+            log.default.error("启动检测：无法检测到解析任务状态，请检查数据库连接是否有误");
+            process.exit(-1)
+        }
+        if (res.recordset.length !== 0) // 有程序正在执行
+        {
+            let id = res.recordset[0].id;
+            log.default.warn(`启动检测：正在执行任务数量：1,任务ID:${id}`);
+
+            sql.query(`UPDATE catsic.dbo.d8_ais_storage set nowStatus = 0 WHERE id = ${id};`, function (err, res) {
+                if (err) {
+                    log.default.error("启动检测：无法自动关闭正在执行的任务，请手动关闭");
+                    process.exit(-1);
+                }
+
+                log.default.warn(`启动检测：停止任务,任务ID:${id}`);
+                scheduleCronstyle()
+            })
+        } else {  //没有程序正在执行
+            log.default.warn(`启动检测：正在执行任务数量：0`);
             scheduleCronstyle()
-        })
-    } else {//没有一个程序正在执行
-        scheduleCronstyle()
-    }
-
-})
-
-function scheduleCronstyle() {
-
-    let rule = new schedule.RecurrenceRule();
-    // rule.second = [0, 10, 20, 30, 40, 50]; // 每隔 10 秒执行一次
-    // rule.minute = [0, 10, 20, 30, 40, 50];//每隔10分钟执行一次
-
-    schedule.scheduleJob("0-59 * * * * *", function () {
-
-        existRunningTask().then(getTaskID).then(getFilesList).then(getStaticMap).then(parseData).then(storeStaticMap)
-
+        }
     });
 
+    function scheduleCronstyle() {
 
-}
+        let rule = new schedule.RecurrenceRule();
 
-function existRunningTask() {
-    return new Promise(function (resolve, reject) {
-        try {
-            sql.query("SELECT DISTINCT nowStatus  FROM catsic.dbo.d8_ais_storage", function (err, res) {
-                // console.log(err, res);
-                if (res.recordset.map(obj => obj.nowStatus).indexOf(1) == -1)  //没有正在执行的任务
-                {
-                    logger.default.warn("没有正在执行的任务");
-                    resolve(0)
+        rule.second = [0, 10, 20, 30, 40, 50]; // 每隔 10 秒执行一次
+
+        job = schedule.scheduleJob(rule, function () {
+
+            existRunningTask().then(getTask).then(getFiles).then(parseData).then(finishTask).catch(ex => {
+
+                switch (ex) {
+                    case "success":
+                        break;
+
+                    case "file err":
+                        sql.query(`UPDATE catsic.dbo.d8_ais_storage set nowStatus= 0 WHERE id = ${taskId}`, function (err, res) {
+                            log.default.info("任务失败，带解析数据不存在");
+                        });
+                        break;
+                    default :
+                        log.default.error("任务退出");
+                        //todo 修改任务状态
+                        return true
                 }
-                else {
-                    logger.default.warn("有一个任务正在执行");
-                    return
-                }
+
             })
-        } catch (e) {
-            logger.err.error(e)
-            reject(e)
-        }
 
-    })
-}
-
-function getTaskID(res, err) {
-    if (err) {
-        logger.err.error(err)
-        return
+        });
     }
-    return new Promise(function (resolve, reject) {
-        try {
-            if (res == 0) //没有正在运行的任务
-            {
-                sql.query("SELECT *  FROM catsic.dbo.d8_ais_storage T WHERE T.nowStatus = 0", function (err, res) {
 
+    function existRunningTask() {
+        return new Promise(function (resolve, reject) {
+            try {
+                sql.query("SELECT DISTINCT nowStatus FROM catsic.dbo.d8_ais_storage", function (err, res) {
+                    // console.log(err, res);
+                    if (res.recordset.map(obj => obj.nowStatus).indexOf(1) == -1)  //没有正在执行的任务
+                    {
+                        log.default.warn("正在执行任务数量：0");
+                        resolve(0)
+                    }
+                    else {
+                        log.default.warn("正在执行任务数量：1");
+                        reject("success")
+                    }
+                })
+            } catch (error) {
+                reject("exit")
+            }
+        })
+    }
+
+    function getTask(task) {
+        return new Promise(function (resolve, reject) {
+            try {
+                sql.query("SELECT *  FROM catsic.dbo.d8_ais_storage T WHERE T.nowStatus = 0 and T.invalidTime is null", function (err, res) {
                     if (res.recordset.length > 0) {
+
+                        log.default.warn("等待执行任务数量：" + res.recordset.length);
+
+
                         //有多个任务
-                        let packageinfo = res.recordset.map(obj => {
+                        let package = res.recordset.map(obj => {
                             return {
                                 files: JSON.parse(obj.packageInfo),
                                 id: obj.id,
                                 sourceId: obj.dataSourceId,
-                                referenceTable: obj.referenceTable,
                                 startDate: obj.startDate,
-                                endDate: obj.endDate
+                                endDate: obj.endDate,
+                                month: obj.startDate.replace("-", "").substring(0, 6)
                             }
                         });
+
                         //选取一个任务
-                        packageinfo = packageinfo.sort((a, b) => {
+                        package = package.sort((a, b) => {
                             if (a.startDate < b.startDate) {
                                 return -1
                             } else {
@@ -111,303 +121,210 @@ function getTaskID(res, err) {
 
                         });
 
-                        task = packageinfo[0];
-                        inputtable = task.referenceTable
-                        taskId = task.id
-                        logger.default.warn("开始执行任务" + task.id)
-
-                        sql.query(`SELECT dataSourceId,ais_time_type, data_column_boundary FROM catsic.dbo.d1_dataSource T WHERE dataSourceId =${task.sourceId}`, function (err, res) {
-                            task.dataSourceInfo = res.recordset[0]
-                            console.log(task);
+                        task = package[0];
+                        taskId = task.id;
+                        log.default.warn("开始执行任务" + task.id);
+                        let query =
+                            `SELECT dataSourceId,ais_time_type, data_column_boundary,aisDataFileTimeStr FROM catsic.dbo.d1_dataSource T WHERE dataSourceId =${task.sourceId} and invalidTime is  null`
+                        sql.query(query, function (err, res) {
+                            task.dataSourceInfo = res.recordset[0];
                             sql.query(`UPDATE catsic.dbo.d8_ais_storage set nowStatus= 1 WHERE id = ${taskId}`, function (err, res) {
                                 if (err) {
-                                    logger.err.error(err)
-                                    return
+                                    reject("exit")
                                 }
-                                resolve(task)
+                                resolve(task, taskId)
                             })
-
                         })
-                    } else {
-                        logger.default.warn("没有等待执行的任务");
+                    }
+                    else {
+                        log.default.warn("等待执行任务数量：0");
+                        reject("success")
                     }
                 })
+            } catch (e) {
+                reject("exit");
             }
-        } catch (e) {
-            logger.err.error(e)
-            reject(e)
-        }
-    })
-}
-
-function getFilesList(task, err) {
-    if (err) {
-        logger.err.error(err)
-        return
-    }
-
-    return new Promise(async function (resolve, reject) {
-        try {
-            if (!task) {
-                return
-            }
-            else {
-                let list = []
-                for (let i in task.files) {
-                    let file = task.files[i];
-                    let fileObj = {
-                        file: {
-                            fileName: file.fileName,
-                            path: file.path + file.fileName, //使用真实路径
-                            outpath: outpath + file.fileName + ".tsv",
-                            taskId: taskId,
-                            fileId: file.id,
-                            startTime: file.startTime
-                        }
-                        ,
-                        datesourceType: {
-                            ais_time_type: parseInt(task.dataSourceInfo.ais_time_type),
-                            data_column_boundary: task.dataSourceInfo.data_column_boundary,
-                            sourceid: parseInt(task.dataSourceInfo.dataSourceId)
-                        },
-                        sortkey: file.startTime,
-                    };
-
-                    list.push(fileObj)
-                }
-
-
-                resolve(list.sort((a, b) => {
-                    if (a.sortkey < b.sortkey) {
-                        return -1
-                    } else {
-                        return 1
-                    }
-                }))
-            }
-
-        } catch (e) {
-            logger.err.error(e)
-            reject(e)
-        }
-    })
-
-}
-
-function getStaticMap(fileList, err) {
-    if (err) {
-        logger.err.error(err)
-        return
-    }
-    return new Promise(function (resolve, reject) {
-        try {
-            sql.query(`SELECT * from  ${inputtable.split(".").map(str => {
-                return "[" + str + "]"
-            }).reduce((a, b) => {
-                return a + "." + b
-            })};`, function (err, res) {
-                staticMap = new Map()
-
-                let objarr = res.recordset
-
-                for (let i in objarr) {
-                    let obj = new AisObject();
-                    obj.mmsi = objarr[i].mmsi;
-                    obj.statictimestamp = objarr[i].statictimestamp;
-                    obj.time = objarr[i].time;
-                    obj.unstatictimestamp = objarr[i].unstatictimestamp;
-
-
-                    obj.imo = objarr[i].imo;
-                    obj.name = objarr[i].name;
-                    obj.callsign = objarr[i].callsign;
-                    obj.cargo = objarr[i].cargo;
-                    obj.length = objarr[i].length;
-                    obj.width = objarr[i].width;
-                    obj.eta = objarr[i].eta;
-                    obj.draught = objarr[i].draught;
-                    obj.dest = objarr[i].dest;
-                    obj.pos_type = objarr[i].pos_type;
-
-
-                    obj.init_time = objarr[i].init_time;
-                    obj.lon = objarr[i].lon;
-                    obj.lat = objarr[i].lat;
-                    obj.mileage = objarr[i].mileage;
-                    obj.speed = objarr[i].speed
-                    obj.static_init_flag = objarr[i].static_init_flag;
-                    obj.unstatic_init_flag = objarr[i].unstatic_init_flag;
-
-                    staticMap.put(obj.mmsi, obj)
-
-                }
-                resolve({staticMap: staticMap, fileList: fileList});
-            })
-        } catch (e) {
-            logger.err.error(e)
-            reject(e)
-        }
-
-    })
-
-}
-
-function parseData(data, err) {
-    if (err) {
-        logger.err.error(err);
-        return
-    }
-    return new Promise(function (resolve, reject) {
-        parseDatafunc.parseData(data, resolve)
-    })
-}
-
-function storeStaticMap(map, err) {
-    if (err) {
-        logger.err.error(err);
-        return
-    }
-    return new Promise(function (resolve, reject) {
-
-        let staticMapkeys = map.keys
-        let staticMap = map.data
-
-
-        let table = new mssql.Table("t41_ais_static_" + task.endDate);
-        table.create = true;
-        table.columns.add('mmsi', mssql.Int, {nullable: false, primary: true});
-        table.columns.add('timestamp', mssql.Int, {nullable: false});
-        table.columns.add('imo', mssql.NVarChar(255), {nullable: true});
-        table.columns.add('name', mssql.NVarChar(255), {nullable: true});
-        table.columns.add('callsign', mssql.NVarChar(255), {nullable: true});
-        table.columns.add('cargo', mssql.Int, {nullable: false});
-        table.columns.add('length', mssql.Float, {nullable: false});
-        table.columns.add('width', mssql.Float, {nullable: false});
-        table.columns.add('eta', mssql.BigInt, {nullable: false});
-        table.columns.add('draught', mssql.Int, {nullable: false});
-        table.columns.add('dest', mssql.NVarChar(255), {nullable: true});
-        table.columns.add('classType', mssql.NVarChar(255), {nullable: true});
-
-        for (let i in staticMapkeys) {
-            let key = staticMapkeys[i]
-            let value = staticMap[key]
-
-            table.rows.add(
-                    value.mmsi,
-                    value.time ? value.time : 0,
-                    value.imo,
-                    value.name,
-                    value.callsign,
-                    value.cargo,
-                    value.length,
-                    value.width,
-                    value.eta,
-                    value.draught,
-                    value.dest,
-                    value.classType);
-        }
-
-        // console.log(outputtable);
-        sql.bulkInsert(table, function (err, res) {
-            if (err) {
-                logger.err.error(err)
-                return
-            }
-            sql.query(`INSERT INTO catsic.dbo.d8_reference_tables (createtime,tablename,startDate,endDate) values(${parseInt(Date.now() / 1000)},'AIS_DATA.dbo.${"t41_ais_static_" + task.endDate}','${task.startDate}','${task.endDate}')`, function (err, res) {
-                if (err) {
-                    console.log(err);
-                }
-                logger.default.info(`生成新的表格`)
-            });
-            sql.query(`UPDATE catsic.dbo.d8_ais_storage set nowStatus= 2 WHERE id = ${taskId}`, function (err, res) {
-                logger.default.info(`${taskId}号任务执行成功`)
-            });
-            // sql.transaction(function (mssql, transaction, con) {
-            //
-            //     transaction.begin(function (err) {
-            //         if (err) {
-            //             logger.err.error(err)
-            //             return;
-            //         }
-            //         //定义一个变量,如果自动回滚,则监听回滚事件并修改为true,无须手动回滚
-            //         var rolledBack = false;
-            //
-            //         //监听回滚事件
-            //         transaction.on('rollback', function (aborted) {
-            //             logger.err.error('监听回滚')
-            //             rolledBack = true;
-            //         });
-            //
-            //         //监听提交事件
-            //         transaction.on('commit', function () {
-            //             logger.default.warn("监听提交")
-            //             rolledBack = true;
-            //         });
-            //
-            //         var request = new mssql.Request(transaction);
-            //
-            //
-            //         var task1 = function (callback) {
-            //             request.query(`DROP TABLE ${inputtable}`, function (err, result) {
-            //                 if (err) {
-            //                     logger.err.error(err)
-            //                     callback(err, null);
-            //                     return;
-            //                 }
-            //                 logger.default.warn(`${inputtable}删除成功`)
-            //                 callback(null, result)
-            //             })
-            //
-            //         };
-            //         var task2 = function (callback) {
-            //             request.query(`EXEC sp_rename '${outputtable}', '${inputtable}';`, function (err, result) {
-            //                 if (err) {
-            //                     console.log(err);
-            //                     callback(err, null);
-            //                     return;
-            //                 }
-            //                 logger.default.warn(`${outputtable}变更表名为${inputtable}`)
-            //                 callback(null, result)
-            //             })
-            //
-            //         };
-            //
-            //         async.series([task1, task2], function (err, result) {
-            //             if (err) {
-            //                 if (!rolledBack) {
-            //
-            //                     //如果sql语句错误会自动回滚,如果程序错误手动执行回滚,不然事物会一致挂起.
-            //                     transaction.rollback(function (err) {
-            //                         if (err) {
-            //                             logger.err.error('rollback err :', err)
-            //                             return;
-            //                         }
-            //                     });
-            //                 }
-            //             } else {
-            //                 //执行提交
-            //                 transaction.commit(function (err) {
-            //                     if (err) {
-            //                         logger.err.error('commit err :', err)
-            //                         return;
-            //                     }
-            //                     logger.default.warn('提交成功')
-            //                     sql.query(`UPDATE catsic.dbo.d8_ais_storage set nowStatus= 2 WHERE id = ${taskId}`, function (err, res) {
-            //                         logger.default.info(`${taskId}号任务执行成功`)
-            //                     });
-            //                     con.close()
-            //
-            //                 });
-            //             }
-            //         })
-            //     });
-            //
-            // })
         })
-    })
+    }
+
+
+    function getFiles(task) {
+
+        log.default.warn("获取待解析文件…………");
+        return new Promise(async function (resolve, reject) {
+            try {
+                let list = [];
+                let successful = true;
+
+                task.files.forEach(jar => {
+                    list = [...list, ...jar.tableFileInfo.map(file => {
+
+                        if (!checkfile(file.filePath)) {
+                            log.default.error(file.filePath + " not exist !!!")
+                            successful = false
+                        }
+
+                        // todo
+                        return {
+                            file: {
+                                filename: file.fileName,
+                                path: file.filePath,
+                                outpath: file.endPathStr,
+                                otherpath: file.endPathStr + ".other",
+                                id: file.id,
+                                jarName: jar.endPathRar,
+                                localoutpath: `/data/aisdata/${task.month}`,
+                                localotherpath: `/data/otherdata/${task.month}`
+                            },
+                            datesourceType: {
+                                //todo
+                                ais_time_format: task.dataSourceInfo.aisDataFileTimeStr,
+                                ais_time_type: task.dataSourceInfo.ais_time_type,
+                                data_column_boundary: task.dataSourceInfo.data_column_boundary,
+                                sourceid: parseInt(task.dataSourceInfo.dataSourceId)
+                            },
+                            taskId: task.id
+                        }
+                    })];
+                });
+
+
+                if (successful) {
+
+                    // 新建当月数据存放位置
+                    if (!fs.existsSync(`/data/aisdata/${task.month}`)) {
+                        fs.mkdirSync(`/data/aisdata/${task.month}`)
+                    }
+
+                    if (!fs.existsSync(`/data/otherdata/${task.month}`)) {
+                        fs.mkdirSync(`/data/otherdata/${task.month}`)
+                    }
+
+                    // 删除6个月之前的数据
+
+                    if (fs.existsSync(`/data/aisdata/${lastSixMonth(task.month)}`)) {
+                        fs.rmdirSync(`/data/aisdata/${lastSixMonth(task.month)}`)
+                    }
+
+                    if (fs.existsSync(`/data/otherdata/${lastSixMonth(task.month)}`)) {
+                        fs.rmdirSync(`/data/otherdata/${lastSixMonth(task.month)}`)
+                    }
+
+                    sql.query(`update catsic.dbo.d8_ais_storage set packageNum= ${list.length} WHERE id = ${taskId}`, function (err) {
+                        resolve(list)
+                    });
+
+                } else {
+                    reject("file err");
+                }
+            } catch (e) {
+                reject("exit")
+            }
+        })
+    }
+
+    function lastSixMonth(currentMonth) {
+        year = currentMonth.substring(0, 4);
+        month = currentMonth.substring(4);
+
+
+        ms = {
+            "01": "08",
+            "02": "09",
+            "03": "10",
+            "04": "11",
+            "05": "12",
+            "06": "01",
+            "07": "02",
+            "08": "03",
+            "09": "04",
+            "10": "05",
+            "11": "06",
+            "12": "07"
+        };
+
+        if (month <= "05") {
+            return `${parseInt(year) - 1}${ms[month]}`
+        } else {
+            return `${parseInt(year)}${ms[month]}`
+        }
+    }
+
+
+    function parseData(data) {
+        log.default.warn("开始解析…………");
+        log.default.warn("待解析文件数量:" + data.length);
+        console.log(data);
+        return new Promise(function (resolve, reject) {
+            parseDatafunc.parseData(data, resolve)
+        })
+    }
+
+    function finishTask(data) {
+        // console.log("data", data);
+        if (data === 0) {
+            sql.query(`UPDATE catsic.dbo.d8_ais_storage set nowStatus= 2 WHERE id = ${taskId}`, function (err, res) {
+                log.default.info(task.id + "号任务完成");
+            });
+        }
+    }
+
+    function checkfile(file) {
+        if (!fs.existsSync(file)) {
+            return false
+        }
+        return true
+    }
+
+    function exist(error) {
+        log.default.error(error);
+        sql.query(`UPDATE catsic.dbo.d8_ais_storage set nowStatus=3  WHERE id = ${taskId}`, function (err, res) {
+            log.default.info(task.id + "号任务失败");
+            return
+        })
+    }
+}
+// 工作进程
+else if (cluster.isWorker) {
+    process.on('message', function (msg) {
+
+        if (msg.topic === "fork_success" && msg.flag === 0) {
+            // log.default.info("child start !!!");
+            process.send({
+                topic: "child_ready_message",
+                flag: 0, //0成功 -1失败
+                data: {pid: process.pid}
+            });
+
+        }
+        else if (msg.topic === "task_message" && msg.flag === 0) {
+
+            log.default.info("child start task:", msg.data.file.path);
+
+
+            new Promise(function (resolve, reject) {
+                parseDatefunc.readEachLine(msg.data.file, msg.data.datesourceType, resolve, reject)
+            }).then(function (data) {
+                // 子进程发送消息,0代表解析成功
+                log.default.info("task finished :", msg.data.file.path);
+                process.send({
+                    topic: "task_finished_message",
+                    flag: 0, //0成功 -1失败
+                    data: {task: msg.data},
+                    taskId: msg.data.taskId
+                });
+            });
+        }
+    });
+
+
+    process.on('disconnect', () => {
+        console.log('工作进程成功退出');
+        process.exit(0);
+    });
 }
 
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
+
+
+

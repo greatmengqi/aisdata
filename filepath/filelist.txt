@@ -1,3 +1,0 @@
-/Users/chenmengqi/catsicts/cs/src/aisdata/sqlServer/conf.js
-/Users/chenmengqi/catsicts/cs/src/aisdata/sqlServer/sequelize.js
-/Users/chenmengqi/catsicts/cs/src/aisdata/sqlServer/sqlServerQuery.js
