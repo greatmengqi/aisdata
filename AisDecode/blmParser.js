@@ -11,9 +11,8 @@ function aisDecode(time, packet) {
         return null;
     }
 
-    var temp_data=time+'+-*/='+decode.moreParseData+'\n';
-
     if(decode.isOneTime===false){
+        var temp_data=time+'+-*/='+decode.moreParseData+'\n';
         fs.appendFile('./temp.txt',temp_data , function(err){
             if(err){
                 console.log('error for writing: '+err);

@@ -1,6 +1,3 @@
-Hello1=world
-Hello2=world
-Hello1=world
-Hello2=world
-Hello3=world
-Hello3=world
+Hello world
+Hello world
+Hello world

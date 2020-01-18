@@ -24,6 +24,15 @@ function DecodeAisFromFile2015(){
 	var len = pathArr.length;
 	var i = 0;
 
+    FileSys.writeFile('./temp.txt', '', (err) => {
+        if (err) {
+            console.log('write error');
+        }
+        else {
+            console.log('clear temp file');
+        }
+    });
+
 	Async.whilst(
 		function(){
 			return i < len;
@@ -172,7 +181,8 @@ function DecodeAisFromFile2015(){
 			});
 		},
 		function(err) {
-			BlmLog.info(Util.format("All end, time is %s.", TimeUtil.dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss")));
+            twiceParse();
+			BlmLog.info(Util.format("first All end, time is %s.", TimeUtil.dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss")));
 		});
 }
 
@@ -185,6 +195,8 @@ function twiceParse() {
 			var all_data=data.split('\n');
 			all_data.splice(all_data.length-1,1);
 			//console.log(all_data);
+            var count=0;
+            var mapAisLast = new Map();
 			for(var i=0;i<all_data.length;i++){
 				var time=all_data[i].split('+-*/=')[0];
 				var message=all_data[i].split('+-*/=')[1];
@@ -215,10 +227,111 @@ function twiceParse() {
 						break;
 					}
 				}
-				temp_one_mes.sort(compare('flag_x'));
+				temp_one_mes.sort(compare('flag_y'));
+				var after_mes='';
+				for(var k=0;k<temp_one_mes.length;k++){
+				    after_mes+=temp_one_mes[k].data.split(',')[5];
+                }
+				var split_mes=temp_one_mes[0].data.split(',');
+				split_mes[1]='1';
+				split_mes[2]='1';
+                split_mes[3]='';
+                split_mes[5]=after_mes;
+                var joint_mes=split_mes.join(',');
+                var aisData = AisDecode(temp_one_mes[0].time, joint_mes);
+
+                if (aisData != null) {
+                    count ++;
+                    var mmsi = aisData.mmsi;
+                    var aisTime = aisData.time;
+
+                    if(mmsi < 100000000 || mmsi > 999999999)
+                        return;
+
+                    if(aisTime<1000000000 || aisTime>9999999999)
+                        return;
+
+                    var lastData = mapAisLast.get(mmsi);
+
+                    if(aisData.packetType == 0){//动态
+                        if(lastData == null) {
+                            lastData = new AisObject();
+                            mapAisLast.put(mmsi, lastData);
+                        }
+
+                        lastData.mmsi = aisData.mmsi;
+                        lastData.time = aisData.time;
+                        lastData.classType = aisData.classType; //报告类型 A or B
+                        lastData.messageType = aisData.messageType; //ais报文类型 1-27
+                        lastData.speed = aisData.speed;
+                        lastData.status = aisData.status;//航行状态
+                        lastData.rot = aisData.rot;//转向率
+                        lastData.acc = aisData.acc;//位置的准确度
+                        lastData.x = aisData.x;//经度
+                        lastData.y = aisData.y;//纬度
+                        lastData.course = aisData.course;//航向
+                        lastData.headcourse = aisData.headcourse;//船首向
+                        lastData.secondutc = aisData.secondutc;//Second of UTC timestamp
+                    }
+
+                    if(aisData.packetType == 1){//静态
+                        if(lastData != null) {
+                            lastData.mmsi = aisData.mmsi;
+                            lastData.imo = aisData.imo!=""?aisData.imo:"";
+                            lastData.callsign = aisData.callsign!=""?aisData.callsign:"";
+                            lastData.shipname = aisData.shipname!=""?aisData.shipname:"";
+                            lastData.cargo = aisData.cargo!=0?aisData.cargo:0;//货物类型
+                            lastData.length = aisData.length>0?aisData.length:0;//米
+                            lastData.width = aisData.width>0?aisData.width:0;//米
+                            lastData.draught = aisData.draught>0?aisData.draught:0;//吃水
+                            lastData.eta = aisData.eta;
+                            lastData.dest = aisData.dest;//目的港
+                        }
+
+                        return;
+                    }
+
+                    if(aisData.packetType==2){//动静
+                        if(lastData == null) {
+                            lastData = new AisObject();
+                            mapAisLast.put(mmsi, lastData);
+                        }
+
+                        lastData.mmsi = aisData.mmsi;
+                        lastData.time=aisData.time;
+                        lastData.classType=aisData.classType; //报告类型 A or B
+                        lastData.messageType=aisData.messageType; //ais报文类型 1-27
+                        lastData.speed=aisData.speed;
+                        lastData.status=aisData.status;//航行状态
+                        lastData.rot=aisData.rot;//转向率
+                        lastData.acc=aisData.acc;//位置的准确度
+                        lastData.x=aisData.x;//经度
+                        lastData.y=aisData.y;//纬度
+                        lastData.course=aisData.course;//航向
+                        lastData.headcourse=aisData.headcourse;//船首向
+                        lastData.secondutc=aisData.secondutc;//Second of UTC timestamp
+
+                        lastData.imo=aisData.imo!=""?aisData.imo:"";
+                        lastData.callsign=aisData.callsign!=""?aisData.callsign:"";
+                        lastData.shipname=aisData.shipname!=""?aisData.shipname:"";
+                        lastData.cargo=aisData.cargo!=0?aisData.cargo:0;//货物类型
+                        lastData.length=aisData.length>0?aisData.length:0;//米
+                        lastData.width=aisData.width>0?aisData.width:0;//米
+                        lastData.draught=aisData.draught>0?aisData.draught:0;//吃水
+                        lastData.eta=aisData.eta;
+                        lastData.dest=aisData.dest;//目的港
+                    }
+
+                    lastData.srcid = SrcId;
+                    var key = lastData.toRangKey();
+                    var value = lastData.toHypertableValue();
+                    var htString = Util.format("%s\tdescription\t%s\n", key, value);
+                    WriteToFile(OutDir + 'lastData.tsv', htString);
+                }
 			}
 		}
-	});
+        BlmLog.info(Util.format("last All end, time is %s.", TimeUtil.dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss")));
+    });
 }
 
 function compare(p) {
