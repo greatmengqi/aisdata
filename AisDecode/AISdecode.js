@@ -285,7 +285,7 @@ function AisDecode(input) {
                 this.destination = this.GetStr(302, 120);
                 this.length = this.dimA + this.dimB;
                 this.width = this.dimC + this.dimD;
-                if (typeof this.destination === "undefined") {
+                if(typeof this.destination === "undefined") {
                     this.valid = false;
                 }
                 else {
